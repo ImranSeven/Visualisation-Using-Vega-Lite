@@ -1,0 +1,327 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1000,
+  "height": 500,
+  "title": "Top Countries by Arrivals",
+  "data": {
+    "url": "data/foreign_arrivals.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.arrivals > 0"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "arrivals",
+          "as": "total_arrivals"
+        }
+      ],
+      "groupby": [
+        "country"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "total_arrivals",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rank <= 10"
+    },
+    {
+      "lookup": "country",
+      "from": {
+        "data": {
+          "values": [
+            {
+              "code": "SGP",
+              "name": "Singapore"
+            },
+            {
+              "code": "IDN",
+              "name": "Indonesia"
+            },
+            {
+              "code": "THA",
+              "name": "Thailand"
+            },
+            {
+              "code": "CHN",
+              "name": "China"
+            },
+            {
+              "code": "BRN",
+              "name": "Brunei"
+            },
+            {
+              "code": "IND",
+              "name": "India"
+            },
+            {
+              "code": "BGD",
+              "name": "Bangladesh"
+            },
+            {
+              "code": "PHL",
+              "name": "Philippines"
+            },
+            {
+              "code": "KOR",
+              "name": "Korea"
+            },
+            {
+              "code": "VNM",
+              "name": "Vietnam"
+            }
+          ]
+        },
+        "key": "code",
+        "fields": [
+          "name"
+        ]
+      },
+      "as": [
+        "country_full"
+      ]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "tooltip": true
+      },
+      "encoding": {
+        "x": {
+          "field": "country_full",
+          "type": "nominal",
+          "title": "Country",
+          "sort": "-y"
+        },
+        "y": {
+          "field": "total_arrivals",
+          "type": "quantitative",
+          "title": "Total Arrivals"
+        },
+        "color": {
+          "field": "country_full",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Singapore",
+              "Indonesia",
+              "Thailand",
+              "China",
+              "Brunei",
+              "India",
+              "Bangladesh",
+              "Philippines",
+              "Korea",
+              "Vietnam"
+            ],
+            "range": [
+              "#ED8728",
+              "#ED8728",
+              "#ED8728",
+              "#7f7f7f",
+              "#ED8728",
+              "#7f7f7f",
+              "#7f7f7f",
+              "#ED8728",
+              "#7f7f7f",
+              "#ED8728"
+            ]
+          },
+          "title": "Country",
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "country_full",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "total_arrivals",
+            "type": "quantitative",
+            "title": "Total Arrivals"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -390,
+        "dy": -45,
+        "fontSize": 14,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "The top 3 countries contributes"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -390,
+        "dy": -30,
+        "fontSize": 14,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "significantly due to their close"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -390,
+        "dy": -15,
+        "fontSize": 14,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "proximity and strong travel, trade, "
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -390,
+        "dy": -15,
+        "fontSize": 14,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "proximity and strong travel, trade, "
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -150,
+        "dy": 130,
+        "fontSize": 14,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "Non-Southeast Asian countries like China, India, "
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -150,
+        "dy": 145,
+        "fontSize": 14,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "and Korea show substantial arrivals, driven by tourism,"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -150,
+        "dy": 160,
+        "fontSize": 14,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "business ties, and growing international connections"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 80,
+        "dy": -150,
+        "fontSize": 16,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "Majority of the top 10 countries"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 80,
+        "dy": -135,
+        "fontSize": 16,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "are from Southeast Asia, highlighting"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 80,
+        "dy": -120,
+        "fontSize": 16,
+        "color": "black"
+      },
+      "encoding": {
+        "text": {
+          "value": "the region's strong travel ties with Malaysia"
+        }
+      }
+    }
+  ],
+  "config": {
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 12,
+      "titleFontSize": 14
+    }
+  }
+}
